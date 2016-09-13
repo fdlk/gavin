@@ -5,10 +5,6 @@ import ReactSelect from "react-select";
 import "react-select/dist/react-select.css";
 import fetch from "isomorphic-fetch";
 
-const propTypes = {
-  getOptions: React.PropTypes.func
-};
-
 function logChange(val) {
   console.log("Selected: ", val);
 }
@@ -27,46 +23,54 @@ class PhenotypeSelection extends Component {
                            loadOptions={getOptions}
                            cache={null}
                            onChange={logChange}
-                           filterOptions={false}
-        />
+                           filterOptions={false}/>
       </div>
     );
   }
 }
-PhenotypeSelection.propTypes = propTypes;
+PhenotypeSelection.propTypes = {
+  getOptions: React.PropTypes.func
+}
+
+const attrs = 'id,ontologyTermIRI,ontologyTermName,ontologyTermSynonym'
 
 // these two methods are used to wrap a container component around the presentation component above
 const mapStateToProps = ({session: {apiUrl, token}}) => {
-  var headers = {"x-molgenis-token": token};
+  const headers = {"x-molgenis-token": token};
 
-  const hpOntologyId = 'AAAACVZFGQYSUVXJESE2BPAAAE'; //TODO: fetch from server
+  function getUrl(input = '') {
+    const termQueryParts = input
+      .split(/\s+/)
+      .filter(term => term.length)
+      .map(term => `ontologyTermName=q="${term.trim()}"`)
+    const q = ['ontology==AAAACVZFGQYSUVXJESE2BPAAAE', ...termQueryParts].join(';')
+    const params = {q, attrs}
+    const query = Object.keys(params)
+      .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+      .join('&');
+    return `${apiUrl}/v2/sys_ont_OntologyTerm?${query}`;
+  }
+
   const getOptions = (input) => {
-    let url = `${apiUrl}/v2/sys_ont_OntologyTerm?num=10&q=ontology==${hpOntologyId}`
-    if (input) {
-      const termQuery = input.split(/\s+/).filter(term => term.length).map(term => `ontologyTermName=q="${term.trim()}"`).join(';')
-      url = url + `;${termQuery}`
-    }
-    url = url + `&attrs=id,ontologyTermIRI,ontologyTermName,ontologyTermSynonym`
-    console.log(url)
-    return fetch(url, {headers})
+    return fetch(getUrl(input), {headers})
       .then((response) => {
         return response.json();
       }).then((json) => {
-        console.log(json);
         return {
           options: json.items.map(item => ({label: item.ontologyTermName, value: item})),
           complete: false
-        };
-      });
+        }
+      })
   }
-
+  return {getOptions};
+}
+  
+const mapDispatchToProps = (dispatch) => {
   const onSelect = (pheno) => {
+    //todo: dispatch action here
     console.log("Selected pheno:", pheno)
   };
-  return {getOptions, onSelect};
-};
-const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {onSelect};
 };
 
 export default connect(
