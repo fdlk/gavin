@@ -9,7 +9,7 @@
 // Reducer
 export const defaultState = {
   apiUrl: 'http://localhost:8080/api',
-  token: 'd5715e53454945e58ad2ef46ccc4a33c',
+  token: 'a072af013fc04010a1bffddd88e2d257',
   username: 'admin'
 };
 

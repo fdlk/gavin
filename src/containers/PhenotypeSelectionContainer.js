@@ -9,39 +9,42 @@ const propTypes = {
   getOptions: React.PropTypes.func
 };
 
-var options = [
-  {value: 'one', label: 'One'},
-  {value: 'two', label: 'Two'}
-];
-
 function logChange(val) {
-  console.log("Selected: " + val);
+  console.log("Selected: ", val);
 }
 
-class PhenotypeSelectionContainer extends Component {
+/**
+ * This is the dumb presentation component that displays the Phenotype selection form.
+ */
+class PhenotypeSelection extends Component {
   render() {
-    const {getOptions} = this.props
+    const {getOptions, onSelect} = this.props
     return (
       <div>
-        Select phenotypes: <ReactSelect.Async name="form-field-name"
-                                              value="one"
-                                              loadOptions={getOptions}
-                                              cache={null}
-                                              onChange={logChange}/>
+        Select phenotypes:
+        <ReactSelect.Async name="form-field-name"
+                           value="one"
+                           loadOptions={getOptions}
+                           cache={null}
+                           onChange={logChange}
+                           filterOptions={false}
+        />
       </div>
     );
   }
 }
+PhenotypeSelection.propTypes = propTypes;
 
+// these two methods are used to wrap a container component around the presentation component above
 const mapStateToProps = ({session: {apiUrl, token}}) => {
   var headers = {"x-molgenis-token": token};
 
-  const hpOntologyId = 'AAAACVY72VDQRXVFFHRQFRAAAE'; //TODO: fetch from server
+  const hpOntologyId = 'AAAACVZFGQYSUVXJESE2BPAAAE'; //TODO: fetch from server
   const getOptions = (input) => {
-    let url = `${apiUrl}/v2/sys_ont_OntologyTerm?q=ontology==${hpOntologyId}`
+    let url = `${apiUrl}/v2/sys_ont_OntologyTerm?num=10&q=ontology==${hpOntologyId}`
     if (input) {
-      const termQuery = input.split(/\s+/).map(term => `ontologyTermName=q="${term.trim()}"`).join(',')
-      url = url + `;(${termQuery})`
+      const termQuery = input.split(/\s+/).filter(term => term.length).map(term => `ontologyTermName=q="${term.trim()}"`).join(';')
+      url = url + `;${termQuery}`
     }
     url = url + `&attrs=id,ontologyTermIRI,ontologyTermName,ontologyTermSynonym`
     console.log(url)
@@ -56,16 +59,18 @@ const mapStateToProps = ({session: {apiUrl, token}}) => {
         };
       });
   }
-  return {getOptions};
+
+  const onSelect = (pheno) => {
+    console.log("Selected pheno:", pheno)
+  };
+  return {getOptions, onSelect};
 };
 const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-PhenotypeSelectionContainer.propTypes = propTypes;
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PhenotypeSelectionContainer)
+)(PhenotypeSelection)
 
