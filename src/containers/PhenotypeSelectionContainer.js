@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import ReactSelect from "react-select";
 import "react-select/dist/react-select.css";
-import fetch from "isomorphic-fetch";
+import MolgenisApi from "redux/modules/MolgenisApi";
 
 function logChange(val) {
   console.log("Selected: ", val);
@@ -35,9 +35,7 @@ PhenotypeSelection.propTypes = {
 const attrs = 'id,ontologyTermIRI,ontologyTermName,ontologyTermSynonym'
 
 // these two methods are used to wrap a container component around the presentation component above
-const mapStateToProps = ({session: {apiUrl, token}}) => {
-  const headers = {"x-molgenis-token": token};
-
+const mapStateToProps = ({session: {server, token}}) => {
   function getUrl(input = '') {
     const termQueryParts = input
       .split(/\s+/)
@@ -48,23 +46,20 @@ const mapStateToProps = ({session: {apiUrl, token}}) => {
     const query = Object.keys(params)
       .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
       .join('&');
-    return `${apiUrl}/v2/sys_ont_OntologyTerm?${query}`;
+    return `/v2/sys_ont_OntologyTerm?${query}`;
   }
 
   const getOptions = (input) => {
-    return fetch(getUrl(input), {headers})
-      .then((response) => {
-        return response.json();
-      }).then((json) => {
-        return {
-          options: json.items.map(item => ({label: item.ontologyTermName, value: item})),
-          complete: false
-        }
-      })
+    return MolgenisApi.get(server, getUrl(input), token).then((json) => {
+      return {
+        options: json.items.map(item => ({label: item.ontologyTermName, value: item})),
+        complete: false
+      }
+    })
   }
   return {getOptions};
 }
-  
+
 const mapDispatchToProps = (dispatch) => {
   const onSelect = (pheno) => {
     //todo: dispatch action here

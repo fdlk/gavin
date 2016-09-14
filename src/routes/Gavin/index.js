@@ -1,4 +1,5 @@
 import {injectReducer} from "../../store/reducers";
+import {login} from "redux/modules/Session";
 
 export default (store) => ({
   path: 'gavin',
@@ -14,6 +15,10 @@ export default (store) => ({
 
       /*  Add the reducer to the store on key 'gavin'  */
       injectReducer(store, {key: 'gavin', reducer})
+
+      const loginAction = login({apiUrl: 'http://localhost:8080/api/'}, 'admin', 'admin');
+      console.log('dispatch', loginAction)
+      store.dispatch(loginAction)
 
       /*  Return getComponent   */
       cb(null, Gavin)
