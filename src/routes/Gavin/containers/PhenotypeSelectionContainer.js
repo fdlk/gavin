@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import EntitySelectBoxContainer from "../../../containers/EntitySelectBoxContainer";
+import EntitySelectBoxContainer from "containers/EntitySelectBoxContainer";
 import {selectPhenotype} from "routes/Gavin/modules/Gavin";
 
 /**

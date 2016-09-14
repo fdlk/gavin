@@ -1,39 +1,27 @@
+import {combineReducers} from "redux";
+import phenotypes from "./PhenotypeSelection";
+
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SELECT_PHENOTYPE = 'Gavin.SELECT_PHENOTYPE'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function selectPhenotype(ontologyTerm) {
-  return {
-    type: SELECT_PHENOTYPE,
-    payload: ontologyTerm
-  }
-}
 
-export const actions = {
-  selectPhenotype
-}
+
+export const actions = {}
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const ACTION_HANDLERS = {
-  [SELECT_PHENOTYPE]: (state, action) => (
-    (state.phenotypes.indexOf(action.payload) == -1) ? {
-      ...state,
-      phenotypes: [...state.phenotypes, action.payload]
-    } : state)
-}
+const ACTION_HANDLERS = {}
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {phenotypes: []}
-export default function gavinReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
+const initialState = {}
 
-  return handler ? handler(state, action) : state
-}
+export const reducer = combineReducers({phenotypes})
+
+export default reducer
