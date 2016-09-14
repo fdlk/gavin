@@ -25,7 +25,7 @@ class EntitySelectBox extends Component {
 EntitySelectBox.propTypes = propTypes;
 
 // these two methods are used to wrap a container component around the presentation component above
-const mapStateToProps = ({session: {server, token}}, {entityName, getQuery, attrs, labelAttribute}) => {
+const mapStateToProps = ({session: {server, token}}, {entityName, getQuery, attrs, getLabel}) => {
   // retrieval of options happens in view state, define here how to retrieve them.
   function getUrl(input = '') {
     const q = getQuery(input)
@@ -39,7 +39,7 @@ const mapStateToProps = ({session: {server, token}}, {entityName, getQuery, attr
   const loadOptions = (input) => {
     return get(server, getUrl(input), token).then((json) => {
       return {
-        options: json.items.map(item => ({label: item[labelAttribute], value: item})),
+        options: json.items.map(item => ({label: getLabel(item), value: item})),
         complete: false
       }
     })
