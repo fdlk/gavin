@@ -1,5 +1,5 @@
-import {connect} from "react-redux";
-import Gavin from "../components/Gavin";
+import { connect } from 'react-redux'
+import Gavin from '../components/Gavin'
 
 /*  This is a container component. Notice it does not contain any JSX,
  nor does it import React. This component is **only** responsible for
@@ -13,7 +13,7 @@ import Gavin from "../components/Gavin";
 const mapActionCreators = {}
 
 const mapStateToProps = (state) => ({
-  loggedIn: state.session.token
+  loggedIn : state.session.token
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

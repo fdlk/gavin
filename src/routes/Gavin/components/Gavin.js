@@ -1,13 +1,18 @@
-import React from "react";
-import classes from "./Gavin.scss";
-import PhenotypeSelectionContainer from "../containers/PhenotypeSelectionContainer";
+import React, { PropTypes } from 'react'
+import classes from './Gavin.scss'
+import PhenotypeSelectionContainer from '../containers/PhenotypeSelectionContainer'
 
-export const Gavin = ({loggedIn}) => (
+const propTypes = {
+  loggedIn : PropTypes.bool
+}
+
+export const Gavin = ({ loggedIn }) => (
   <div className={classes['Gavin']}>
     <h4>Gavin</h4>
-    {loggedIn &&
-    <PhenotypeSelectionContainer/>}
+    {loggedIn && <PhenotypeSelectionContainer />}
   </div>
 )
+
+Gavin.propTypes = propTypes
 
 export default Gavin

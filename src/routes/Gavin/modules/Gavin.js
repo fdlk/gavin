@@ -1,5 +1,5 @@
-import {combineReducers} from "redux";
-import phenotypes from "./PhenotypeSelection";
+import { combineReducers } from 'redux'
+import phenotypes from './PhenotypeSelection'
 
 // ------------------------------------
 // Constants
@@ -9,19 +9,13 @@ import phenotypes from "./PhenotypeSelection";
 // Actions
 // ------------------------------------
 
-
 export const actions = {}
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const ACTION_HANDLERS = {}
+// const ACTION_HANDLERS = {}
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-const initialState = {}
-
-export const reducer = combineReducers({phenotypes})
+export const reducer = combineReducers({ phenotypes })
 
 export default reducer

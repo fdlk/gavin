@@ -1,8 +1,8 @@
-import {injectReducer} from "../../store/reducers";
-import {login} from "redux/modules/Session";
+import { injectReducer } from '../../store/reducers'
+import { login } from 'redux/modules/Session'
 
 export default (store) => ({
-  path: 'gavin',
+  path : 'gavin',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -14,9 +14,9 @@ export default (store) => ({
       const reducer = require('./modules/Gavin').default
 
       /*  Add the reducer to the store on key 'gavin'  */
-      injectReducer(store, {key: 'gavin', reducer})
+      injectReducer(store, { key : 'gavin', reducer })
 
-      const loginAction = login({apiUrl: 'http://localhost:8080/api/'}, 'admin', 'admin');
+      const loginAction = login({ apiUrl : 'http://localhost:8080/api/' }, 'admin', 'admin')
       console.log('dispatch', loginAction)
       store.dispatch(loginAction)
 
