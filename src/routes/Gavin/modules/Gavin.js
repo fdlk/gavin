@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import phenotypes from './PhenotypeSelection'
+import phenotypes, * as fromPhenotypes from './PhenotypeSelection'
 
 // ------------------------------------
 // Constants
@@ -10,6 +10,11 @@ import phenotypes from './PhenotypeSelection'
 // ------------------------------------
 
 export const actions = {}
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
+export const getSelectedPhenotypes = (state) => fromPhenotypes.getSelectedPhenotypes(state.phenotypes)
 
 // ------------------------------------
 // Action Handlers

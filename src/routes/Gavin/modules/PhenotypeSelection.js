@@ -22,6 +22,11 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
+// Selectors
+// ------------------------------------
+export const getSelectedPhenotypes = (state) => state.selected
+
+// ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = { selected : [] }

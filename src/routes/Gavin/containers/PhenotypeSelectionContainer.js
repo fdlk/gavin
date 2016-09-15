@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import EntitySelectBoxContainer from 'containers/EntitySelectBoxContainer'
 import { selectPhenotype } from 'routes/Gavin/modules/PhenotypeSelection'
+import { getSelectedPhenotypes } from 'routes/Gavin/modules/Gavin'
 
 const propTypes = {
   phenotypes : PropTypes.array,
@@ -33,7 +34,7 @@ class PhenotypeSelection extends Component {
           entityName={'sys_ont_OntologyTerm'}
           getQuery={getQuery}
           attrs='id,ontologyTermIRI,ontologyTermName'
-          getLabel={this.getLabel}
+          getLabel={PhenotypeSelection.getLabel}
           {...this.props} />
       </div>
     )
@@ -54,7 +55,7 @@ const mapStateToProps = (state) => {
     return ['ontology==AAAACVZFGQYSUVXJESE2BPAAAE', ...termQueryParts].join(';')
   }
 
-  return { getQuery, phenotypes : state.gavin.phenotypes.selected }
+  return { getQuery, phenotypes : getSelectedPhenotypes(state.gavin) }
 }
 
 const onChange = (selectedOption) => selectPhenotype(selectedOption.value)
