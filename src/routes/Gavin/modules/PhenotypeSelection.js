@@ -15,16 +15,16 @@ export const actions = {selectPhenotype};
 
 const ACTION_HANDLERS = {
   [SELECT_PHENOTYPE]: (state, action) => (
-    (state.phenotypes.indexOf(action.payload) == -1) ? {
+    (state.selected.indexOf(action.payload) == -1) ? {
       ...state,
-      phenotypes: [...state.phenotypes, action.payload]
+      selected: [...state.selected, action.payload]
     } : state)
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {phenotypes: []}
+const initialState = {selected: []}
 export default function gavinReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

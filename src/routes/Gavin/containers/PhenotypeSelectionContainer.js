@@ -1,18 +1,15 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
 import EntitySelectBoxContainer from "containers/EntitySelectBoxContainer";
-import {selectPhenotype} from "routes/Gavin/modules/Gavin";
+import {selectPhenotype} from "routes/Gavin/modules/PhenotypeSelection";
 
 /**
  * This is the dumb presentation component for the Phenotype selection box.
  */
 class PhenotypeSelection extends Component {
-  function
 
   getLabel(item) {
     const iri = item.ontologyTermIRI
-    console.log(iri)
     const hpoId = iri.substring(iri.lastIndexOf('/') + 1)
     return `${item.ontologyTermName} (${hpoId})`;
   }
@@ -41,7 +38,6 @@ class PhenotypeSelection extends Component {
 
 // these two methods are used to wrap a container component around the presentation component above
 const mapStateToProps = (state) => {
-  console.log(state)
   // retrieval of options happens in view state, define here how to retrieve them.
   function getQuery(input) {
     const termQueryParts = input
@@ -52,7 +48,7 @@ const mapStateToProps = (state) => {
     return ['ontology==AAAACVZFGQYSUVXJESE2BPAAAE', ...termQueryParts].join(';')
   }
 
-  return {getQuery, phenotypes: state.gavin.phenotypes};
+  return {getQuery, phenotypes: state.gavin.phenotypes.selected};
 }
 
 const onChange = (selectedOption) => selectPhenotype(selectedOption.value)
