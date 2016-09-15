@@ -15,11 +15,11 @@ const propTypes = {
  */
 class EntitySelectBox extends Component {
   render() {
-    return (
-      <ReactSelect.Async cache={null}
-                         filterOptions={false}
-                         {...this.props}/>
-    )
+    const {loadOptions, onChange} = this.props
+    return <ReactSelect.Async cache={null}
+                              filterOptions={false}
+                              loadOptions={loadOptions}
+                              onChange={onChange}/>
   }
 }
 EntitySelectBox.propTypes = propTypes;
