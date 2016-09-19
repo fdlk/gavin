@@ -17,19 +17,20 @@ const ACTION_HANDLERS = {
   [SELECT_PHENOTYPE] : (state, action) => (
     (state.selected.indexOf(action.payload) === -1) ? {
       ...state,
-      selected : [...state.selected, action.payload]
+      selected   : [...state.selected, action.payload.id],
+      phenotypes : { ...state.phenotypes, [action.payload.id] : action.payload }
     } : state)
 }
 
 // ------------------------------------
 // Selectors
 // ------------------------------------
-export const getSelectedPhenotypes = (state) => state.selected
+export const getSelectedPhenotypes = (state) => state.selected.map(id => state.phenotypes[id])
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = { selected : [] }
+const initialState = { selected : [], phenotypes : {} }
 export default function gavinReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

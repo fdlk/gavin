@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import EntitySelectBoxContainer from 'containers/EntitySelectBoxContainer'
 import { selectPhenotype } from 'routes/Gavin/modules/PhenotypeSelection'
 import { getSelectedPhenotypes } from 'routes/Gavin/modules/Gavin'
+import SelectedPhenotypes from '../components/SelectedPhenotypes'
+import Phenotype from '../components/Phenotype'
 
 const propTypes = {
   phenotypes : PropTypes.array,
@@ -22,19 +24,14 @@ class PhenotypeSelection extends Component {
     const { getQuery, phenotypes } = this.props
     return (
       <div>
-        {phenotypes && <div>
-          Selected phenotypes:
-          <ul>
-            {phenotypes.map(pheno => <li>{pheno.ontologyTermName}</li>)}
-          </ul>
-        </div>
-        }
+        {phenotypes && <SelectedPhenotypes phenotypes={phenotypes} /> }
 
         <EntitySelectBoxContainer
           entityName={'sys_ont_OntologyTerm'}
           getQuery={getQuery}
-          attrs='id,ontologyTermIRI,ontologyTermName'
+          attrs='id,ontologyTermIRI,ontologyTermName,ontologyTermSynonym'
           getLabel={PhenotypeSelection.getLabel}
+          optionRenderer={(pheno) => <Phenotype phenotype={pheno.value} />}
           {...this.props} />
       </div>
     )
@@ -50,9 +47,9 @@ const mapStateToProps = (state) => {
     const termQueryParts = input
       .split(/\s+/)
       .filter(term => term.length)
-      .map(term => `ontologyTermName=q="${term.trim()}"`)
+      .map(term => `(ontologyTermSynonym.ontologyTermSynonym=q="${term.trim()}",ontologyTermIRI=q="${term.trim()}")`)
     // TODO: filter out items that have already been selected
-    return ['ontology==AAAACVZFGQYSUVXJESE2BPAAAE', ...termQueryParts].join(';')
+    return ['ontology=="AAAACV2CZE5QEVXJESE2BPAAAE"', ...termQueryParts].join(';')
   }
 
   return { getQuery, phenotypes : getSelectedPhenotypes(state.gavin) }
