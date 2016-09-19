@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { ListItem } from 'react-bootstrap'
 
 const propTypes = {
   phenotype : PropTypes.object
@@ -6,18 +7,15 @@ const propTypes = {
 
 class Phenotype extends Component {
   render () {
+    const { phenotype: { name, synonyms, primaryID } } = this.props
     console.log(this.props)
-    const { phenotype: { ontologyTermName, ontologyTermSynonym, ontologyTermIRI } } = this.props
-    const iri = ontologyTermIRI
-    const hpoId = iri.substring(iri.lastIndexOf('/') + 1)
     return (
-      <div>
-        <h4>{ontologyTermName} ({hpoId})</h4>
-        <p>{ontologyTermSynonym
-          .map(synonym => synonym.ontologyTermSynonym)
-          .filter(synonym => synonym !== ontologyTermName)
+      <ListItem>
+        <h4>{name} ({primaryID})</h4>
+        <p>{synonyms
+          .filter(synonym => synonym !== name)
           .join(', ')}</p>
-      </div>
+      </ListItem>
     )
   }
 }

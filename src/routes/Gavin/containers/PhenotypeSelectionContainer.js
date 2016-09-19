@@ -4,7 +4,6 @@ import EntitySelectBoxContainer from 'containers/EntitySelectBoxContainer'
 import { selectPhenotype } from 'routes/Gavin/modules/PhenotypeSelection'
 import { getSelectedPhenotypes } from 'routes/Gavin/modules/Gavin'
 import SelectedPhenotypes from '../components/SelectedPhenotypes'
-import Phenotype from '../components/Phenotype'
 
 const propTypes = {
   phenotypes : PropTypes.array,
@@ -14,10 +13,18 @@ const propTypes = {
  * This is the dumb presentation component for the Phenotype selection box.
  */
 class PhenotypeSelection extends Component {
-  static getLabel (item) {
-    const iri = item.ontologyTermIRI
-    const hpoId = iri.substring(iri.lastIndexOf('/') + 1)
-    return `${item.ontologyTermName} (${hpoId})`
+  static getOption (item) {
+    const { ontologyTermName, ontologyTermSynonym, ontologyTermIRI } = item
+    const primaryID = ontologyTermIRI.substring(ontologyTermIRI.lastIndexOf('/') + 1)
+    const value = {
+      primaryID,
+      name     : ontologyTermName,
+      synonyms : ontologyTermSynonym
+        .map(synonym => synonym.ontologyTermSynonym)
+        .filter(synonym => synonym !== ontologyTermName)
+    }
+    const label = `${value.name} (${value.primaryID})`
+    return { label, value }
   }
 
   render () {
@@ -30,8 +37,10 @@ class PhenotypeSelection extends Component {
           entityName={'sys_ont_OntologyTerm'}
           getQuery={getQuery}
           attrs='id,ontologyTermIRI,ontologyTermName,ontologyTermSynonym'
-          getLabel={PhenotypeSelection.getLabel}
-          optionRenderer={(pheno) => <Phenotype phenotype={pheno.value} />}
+          getOption={PhenotypeSelection.getOption}
+          optionRenderer={(pheno) => <span>{pheno.value.name} ({pheno.value.primaryID})
+            {pheno.value.synonyms && <small><br />{ pheno.value.synonyms.join(', ')}</small>}
+          </span>}
           {...this.props} />
       </div>
     )
