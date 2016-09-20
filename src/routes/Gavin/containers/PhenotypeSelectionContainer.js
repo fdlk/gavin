@@ -1,14 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import EntitySelectBoxContainer from 'containers/EntitySelectBoxContainer'
-import { selectPhenotype } from 'routes/Gavin/modules/PhenotypeSelection'
+import { selectPhenotype, togglePhenotype } from 'routes/Gavin/modules/PhenotypeSelection'
 import { getSelectedPhenotypes } from 'routes/Gavin/modules/Gavin'
 import SelectedPhenotypes from '../components/SelectedPhenotypes'
 import { Label } from 'react-bootstrap'
 
 const propTypes = {
-  phenotypes : PropTypes.array,
-  getQuery : PropTypes.func
+  phenotypes      : PropTypes.array,
+  getQuery        : PropTypes.func,
+  togglePhenotype : PropTypes.func
 }
 /**
  * This is the dumb presentation component for the Phenotype selection box.
@@ -19,7 +20,7 @@ class PhenotypeSelection extends Component {
     const primaryID = ontologyTermIRI.substring(ontologyTermIRI.lastIndexOf('/') + 1)
     const value = {
       primaryID,
-      name : ontologyTermName,
+      name     : ontologyTermName,
       synonyms : ontologyTermSynonym
         .map(synonym => synonym.ontologyTermSynonym)
         .filter(synonym => synonym !== ontologyTermName)
@@ -29,17 +30,17 @@ class PhenotypeSelection extends Component {
   }
 
   render () {
-    const { getQuery, phenotypes } = this.props
+    const { getQuery, phenotypes, togglePhenotype } = this.props
     return (
       <div>
-        {phenotypes && <SelectedPhenotypes phenotypes={phenotypes}/> }
+        {phenotypes && <SelectedPhenotypes phenotypes={phenotypes} togglePhenotype={togglePhenotype} /> }
 
         <EntitySelectBoxContainer
           entityName={'sys_ont_OntologyTerm'}
           getQuery={getQuery}
           attrs='id,ontologyTermIRI,ontologyTermName,ontologyTermSynonym'
           getOption={PhenotypeSelection.getOption}
-          optionRenderer={(pheno) => <span>{pheno.value.name} <Label bsStyle="primary">{pheno.value.primaryID}</Label>
+          optionRenderer={(pheno) => <span>{pheno.value.name} <Label bsStyle='primary'>{pheno.value.primaryID}</Label>
             {pheno.value.synonyms && <small><br />{ pheno.value.synonyms.join(', ')}</small>}
           </span>}
           {...this.props} />
@@ -67,7 +68,7 @@ const mapStateToProps = (state) => {
 
 const onChange = (selectedOption) => selectPhenotype(selectedOption.value)
 
-const mapDispatchToProps = { onChange }
+const mapDispatchToProps = { onChange, togglePhenotype }
 
 export default connect(
   mapStateToProps,

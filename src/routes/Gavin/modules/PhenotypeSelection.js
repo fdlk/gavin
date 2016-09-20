@@ -1,9 +1,12 @@
 // Constants
 export const SELECT_PHENOTYPE = 'Gavin.SELECT_PHENOTYPE'
+export const TOGGLE_PHENOTYPE = 'Gavin.TOGGLE_PHENOTYPE'
 
-export const constants = { SELECT_PHENOTYPE }
+export const constants = { SELECT_PHENOTYPE, TOGGLE_PHENOTYPE }
 
 // Action Creators
+
+// A phenotype was selected and should be added to the selection
 export function selectPhenotype (phenotype) {
   return {
     type    : SELECT_PHENOTYPE,
@@ -11,7 +14,14 @@ export function selectPhenotype (phenotype) {
   }
 }
 
-export const actions = { selectPhenotype }
+export function togglePhenotype (index) {
+  return {
+    type    : TOGGLE_PHENOTYPE,
+    payload : index
+  }
+}
+
+export const actions = { selectPhenotype, togglePhenotype }
 
 const ACTION_HANDLERS = {
   [SELECT_PHENOTYPE] : (state, action) => (
@@ -19,7 +29,18 @@ const ACTION_HANDLERS = {
       ...state,
       selected   : [...state.selected, { id : action.payload.primaryID, active : true }],
       phenotypes : { ...state.phenotypes, [action.payload.primaryID] : action.payload }
-    } : state)
+    } : state),
+  [TOGGLE_PHENOTYPE] : (state, action) => {
+    const index = action.payload
+    const selectedPheno = state.selected[index]
+    return {
+      selected : [
+        ...state.selected.slice(0, index),
+        { ...selectedPheno, active : !selectedPheno.active },
+        ...state.selected.slice(index + 1)],
+      phenotypes : state.phenotypes
+    }
+  }
 }
 
 // ------------------------------------
