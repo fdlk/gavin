@@ -5,10 +5,10 @@ import ReactSelect from 'react-select'
 import { get } from 'redux/modules/MolgenisApi'
 
 const propTypes = {
-  loadOptions : PropTypes.func,
-  onChange : PropTypes.func,
+  loadOptions    : PropTypes.func,
+  onChange       : PropTypes.func,
   optionRenderer : PropTypes.func,
-  getOption : PropTypes.func
+  getOption      : PropTypes.func
 }
 
 /**
@@ -18,10 +18,10 @@ class EntitySelectBox extends Component {
   render () {
     const { loadOptions, onChange, optionRenderer } = this.props
     return <ReactSelect.Async cache={null}
-                              filterOptions={false}
-                              loadOptions={loadOptions}
-                              onChange={onChange}
-                              optionRenderer={optionRenderer}/>
+      filterOptions={false}
+      loadOptions={loadOptions}
+      onChange={onChange}
+      optionRenderer={optionRenderer} />
   }
 }
 EntitySelectBox.propTypes = propTypes
@@ -42,7 +42,7 @@ const mapStateToProps = ({ session: { server, token } },
   const loadOptions = (input) => {
     return get(server, getUrl(input), token).then((json) => {
       return {
-        options : json.items.map(getOption),
+        options  : json.items.map(getOption),
         complete : false
       }
     })
