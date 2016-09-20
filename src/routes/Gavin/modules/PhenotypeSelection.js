@@ -1,6 +1,7 @@
 // Constants
 export const SELECT_PHENOTYPE = 'Gavin.SELECT_PHENOTYPE'
 export const TOGGLE_PHENOTYPE = 'Gavin.TOGGLE_PHENOTYPE'
+export const REMOVE_PHENOTYPE = 'Gavin.REMOVE_PHENOTYPE'
 
 export const constants = { SELECT_PHENOTYPE, TOGGLE_PHENOTYPE }
 
@@ -21,7 +22,14 @@ export function togglePhenotype (index) {
   }
 }
 
-export const actions = { selectPhenotype, togglePhenotype }
+export function removePhenotype (index) {
+  return {
+    type    : REMOVE_PHENOTYPE,
+    payload : index
+  }
+}
+
+export const actions = { selectPhenotype, togglePhenotype, removePhenotype }
 
 const ACTION_HANDLERS = {
   [SELECT_PHENOTYPE] : (state, action) => (
@@ -37,6 +45,15 @@ const ACTION_HANDLERS = {
       selected : [
         ...state.selected.slice(0, index),
         { ...selectedPheno, active : !selectedPheno.active },
+        ...state.selected.slice(index + 1)],
+      phenotypes : state.phenotypes
+    }
+  },
+  [REMOVE_PHENOTYPE] : (state, action) => {
+    const index = action.payload
+    return {
+      selected : [
+        ...state.selected.slice(0, index),
         ...state.selected.slice(index + 1)],
       phenotypes : state.phenotypes
     }

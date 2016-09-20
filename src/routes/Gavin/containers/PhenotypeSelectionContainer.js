@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import EntitySelectBoxContainer from 'containers/EntitySelectBoxContainer'
-import { selectPhenotype, togglePhenotype } from 'routes/Gavin/modules/PhenotypeSelection'
+import { selectPhenotype, togglePhenotype, removePhenotype } from 'routes/Gavin/modules/PhenotypeSelection'
 import { getSelectedPhenotypes } from 'routes/Gavin/modules/Gavin'
 import SelectedPhenotypes from '../components/SelectedPhenotypes'
 import { Label } from 'react-bootstrap'
@@ -9,7 +9,8 @@ import { Label } from 'react-bootstrap'
 const propTypes = {
   phenotypes      : PropTypes.array,
   getQuery        : PropTypes.func,
-  togglePhenotype : PropTypes.func
+  togglePhenotype : PropTypes.func,
+  removePhenotype : PropTypes.func
 }
 /**
  * This is the dumb presentation component for the Phenotype selection box.
@@ -30,10 +31,10 @@ class PhenotypeSelection extends Component {
   }
 
   render () {
-    const { getQuery, phenotypes, togglePhenotype } = this.props
+    const { getQuery, phenotypes } = this.props
     return (
       <div>
-        {phenotypes && <SelectedPhenotypes phenotypes={phenotypes} togglePhenotype={togglePhenotype} /> }
+        {phenotypes && <SelectedPhenotypes {...this.props} /> }
 
         <EntitySelectBoxContainer
           entityName={'sys_ont_OntologyTerm'}
@@ -68,7 +69,7 @@ const mapStateToProps = (state) => {
 
 const onChange = (selectedOption) => selectPhenotype(selectedOption.value)
 
-const mapDispatchToProps = { onChange, togglePhenotype }
+const mapDispatchToProps = { onChange, togglePhenotype, removePhenotype }
 
 export default connect(
   mapStateToProps,
