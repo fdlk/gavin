@@ -38,9 +38,9 @@ const ACTION_HANDLERS = {
 // that can be used for other componenents
 // ------------------------------------
 export const getAllGenesPresent = (state) =>
-    state.variants.map(variant => ({
-      gene : variant.gene
-    }))
+    state.map(function (variant) {
+      return variant.gene
+    })
 
 // ------------------------------------
 // Reducer
@@ -54,7 +54,7 @@ export const defaultState = {
     'ref'        : 'A',
     'alt'        : 'T',
     'gene'       : 'NOD2'
-  },{
+  }, {
     'chromosome' : '2',
     'position'   : '200',
     'ref'        : 'C',

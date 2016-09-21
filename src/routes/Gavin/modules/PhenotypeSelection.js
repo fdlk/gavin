@@ -69,6 +69,17 @@ export const getSelectedPhenotypes = (state) =>
     value  : state.phenotypes[pheno.id]
   }))
 
+export const getActivePhenotypes = (state) => {
+  var actives = []
+  for (var index in state.selected) {
+    var phenotype = state.selected[index]
+    if (phenotype.active) {
+      actives.push(phenotype.id)
+    }
+  }
+  return actives
+}
+
 // ------------------------------------
 // Reducer
 // ------------------------------------

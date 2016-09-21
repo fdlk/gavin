@@ -32,7 +32,7 @@ VariantTable.propTypes = propTypes
 // Container / Presentation wrapping
 // ------------------------------------
 const mapStateToProps = (state) => {
-    return { variants : state.gavin.entities.variants }
+  return { variants : state.gavin.entities.variants }
 }
 
 const mapDispatchToProps = {}
@@ -40,4 +40,4 @@ const mapDispatchToProps = {}
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(VariantTable);
+)(VariantTable)

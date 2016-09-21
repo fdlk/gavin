@@ -8,7 +8,8 @@ const propTypes = {
   loadOptions    : PropTypes.func,
   onChange       : PropTypes.func,
   optionRenderer : PropTypes.func,
-  getOption      : PropTypes.func
+  getOption      : PropTypes.func,
+  getGnScores    : PropTypes.func
 }
 
 /**
@@ -16,19 +17,27 @@ const propTypes = {
  */
 class EntitySelectBox extends Component {
   render () {
-    const { loadOptions, onChange, optionRenderer } = this.props
-    return <ReactSelect.Async cache={null}
-      filterOptions={false}
-      loadOptions={loadOptions}
-      onChange={onChange}
-      optionRenderer={optionRenderer} />
+    const { loadOptions, onChange, optionRenderer, getGnScores } = this.props
+    return <div className='row'>
+      <div className='col-md-8'>
+        <ReactSelect.Async cache={null}
+          filterOptions={false}
+          loadOptions={loadOptions}
+          onChange={onChange}
+          optionRenderer={optionRenderer}
+        />
+      </div>
+      <div className='col-md-4'>
+          <button className='btn btn-primary' onClick={() => getGnScores()}> Apply GeneNetworks Sorting</button>
+      </div>
+    </div>
   }
 }
 EntitySelectBox.propTypes = propTypes
 
 // these two methods are used to wrap a container component around the presentation component above
 const mapStateToProps = ({ session: { server, token } },
-  { entityName, getQuery, attrs, getOption, optionRenderer }) => {
+  { entityName, getQuery, attrs, getOption, optionRenderer, getGnScores }) => {
   // retrieval of options happens in view state, define here how to retrieve them.
   function getUrl (input = '') {
     const q = getQuery(input)
@@ -47,7 +56,7 @@ const mapStateToProps = ({ session: { server, token } },
       }
     })
   }
-  return { loadOptions, optionRenderer }
+  return { loadOptions, optionRenderer, getGnScores }
 }
 
 const mapDispatchToProps = {}

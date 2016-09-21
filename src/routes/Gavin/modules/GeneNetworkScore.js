@@ -31,23 +31,22 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Selectors
 // ------------------------------------
-// TODO sort variants in state based on scores
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export const defaultState = {
-  'HP_000300280' : {
-    'NOD2'  : 5,
-    'BRCA2' : 2
+  'HP_0100280' : {
+    'NOD2'  : 6,
+    'BRCA2' : 1
   },
-  'HP_000102354' : {
-    'NOD2'  : 2,
+  'HP_0003002' : {
+    'NOD2'  : 1,
     'BRCA2' : 6
   }
 }
 
-export default function gavinReducer (state = defaultState, action) {
+export default function geneNetworkReducer (state = defaultState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
 }
