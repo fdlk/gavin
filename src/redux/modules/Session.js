@@ -14,7 +14,7 @@ export function versionRetrieved (version) {
 
 // Action Creators
 export function login (server, username, password) {
-  // this action a thunk, it resolves a promise and then dispatches a new action
+  // this action is a thunk, it resolves a promise and then dispatches a new action
   // it accepts the dispatch method as a parameter
   return function (dispatch) {
     return MolgenisApi.login(server, username, password).then(
