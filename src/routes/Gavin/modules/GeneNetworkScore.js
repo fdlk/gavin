@@ -1,16 +1,16 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_GN_SCORES = 'Gavin.SET_GN_SCORES'
+export const SCORES_LOADED = 'Gavin.SCORES_LOADED'
 
-export const constants = { SET_GN_SCORES }
+export const constants = { SCORES_LOADED }
 
 // ------------------------------------
 // Action creators
 // ------------------------------------
 export function setGeneNetworkScores (scores) {
   return {
-    type    : SET_GN_SCORES,
+    type    : SCORES_LOADED,
     payload : scores
   }
 }
@@ -21,7 +21,7 @@ export const actions = { setGeneNetworkScores }
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_GN_SCORES] : (state, action) => {
+  [SCORES_LOADED] : (state, action) => {
     return {
       'HP_000300280' : action.payload.scores
     }

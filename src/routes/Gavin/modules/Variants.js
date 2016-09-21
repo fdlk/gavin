@@ -1,16 +1,16 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_VARIANTS = 'Gavin.SET_VARIANTS'
+export const VARIANTS_LOADED = 'Gavin.VARIANTS_LOADED'
 
-export const constants = { SET_VARIANTS }
+export const constants = { VARIANTS_LOADED }
 
 // ------------------------------------
 // Action creators
 // ------------------------------------
 export function setVariants (variants) {
   return {
-    type    : SET_VARIANTS,
+    type    : VARIANTS_LOADED,
     payload : variants
   }
 }
@@ -24,7 +24,7 @@ export const actions = { setVariants }
 // should do
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_VARIANTS] : (state, action) => {
+  [VARIANTS_LOADED] : (state, action) => {
     return {
       variants : action.payload.variants
     }
