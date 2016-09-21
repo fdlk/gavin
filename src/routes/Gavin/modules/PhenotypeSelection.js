@@ -1,20 +1,28 @@
 // Constants
-export const SELECT_PHENOTYPE = 'Gavin.SELECT_PHENOTYPE'
+export const PHENOTYPE_SELECTED = 'Gavin.PHENOTYPE_SELECTED'
 export const TOGGLE_PHENOTYPE = 'Gavin.TOGGLE_PHENOTYPE'
 export const REMOVE_PHENOTYPE = 'Gavin.REMOVE_PHENOTYPE'
 export const PHENOTYPE_ONTOLOGY_FOUND = 'Gavin.PHENOTYPE_ONTOLOGY_FOUND'
 
-export const constants = { SELECT_PHENOTYPE, TOGGLE_PHENOTYPE, REMOVE_PHENOTYPE }
+export const constants = { PHENOTYPE_SELECTED, TOGGLE_PHENOTYPE, REMOVE_PHENOTYPE }
 
 import { get } from 'redux/modules/MolgenisApi'
+import { fetchGeneNetworkScores } from './GeneNetworkScore'
 
 // Action Creators
 
 // A phenotype was selected and should be added to the selection
-export function selectPhenotype (phenotype) {
+export function phenotypeSelected (phenotype) {
   return {
-    type    : SELECT_PHENOTYPE,
+    type    : PHENOTYPE_SELECTED,
     payload : phenotype
+  }
+}
+
+export function selectPhenotype (phenotype) {
+  return function (dispatch) {
+    dispatch(phenotypeSelected(phenotype))
+    dispatch(fetchGeneNetworkScores(phenotype))
   }
 }
 
@@ -54,7 +62,7 @@ const ACTION_HANDLERS = {
   [PHENOTYPE_ONTOLOGY_FOUND] : (state, action) => (
   { ...state, ontologyId : action.payload }
   ),
-  [SELECT_PHENOTYPE] : (state, action) => (
+  [PHENOTYPE_SELECTED] : (state, action) => (
     (state.selected.map(item => item.id).indexOf(action.payload.primaryID) === -1) ? {
       ...state,
       selected   : [...state.selected, { id : action.payload.primaryID, active : true }],
