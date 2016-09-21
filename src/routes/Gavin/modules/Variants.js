@@ -54,7 +54,7 @@ export const defaultState = {
     'ref'        : 'A',
     'alt'        : 'T',
     'gene'       : 'NOD2'
-  },{
+  }, {
     'chromosome' : '2',
     'position'   : '200',
     'ref'        : 'C',

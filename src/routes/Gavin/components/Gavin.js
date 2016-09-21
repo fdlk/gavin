@@ -10,10 +10,10 @@ const propTypes = {
 export const Gavin = ({ loggedIn }) => (
   <div className={classes['Gavin']}>
     <h4>Gavin</h4>
-    {loggedIn &&<div>
-        <PhenotypeSelectionContainer />
-        <VariantTableContainer/>
-        </div>}
+    {loggedIn && <div>
+      <PhenotypeSelectionContainer />
+      <VariantTableContainer />
+    </div>}
   </div>
 )
 
