@@ -2,8 +2,11 @@
 export const SELECT_PHENOTYPE = 'Gavin.SELECT_PHENOTYPE'
 export const TOGGLE_PHENOTYPE = 'Gavin.TOGGLE_PHENOTYPE'
 export const REMOVE_PHENOTYPE = 'Gavin.REMOVE_PHENOTYPE'
+export const PHENOTYPE_ONTOLOGY_FOUND = 'Gavin.PHENOTYPE_ONTOLOGY_FOUND'
 
 export const constants = { SELECT_PHENOTYPE, TOGGLE_PHENOTYPE, REMOVE_PHENOTYPE }
+
+import { get } from 'redux/modules/MolgenisApi'
 
 // Action Creators
 
@@ -29,9 +32,28 @@ export function removePhenotype (index) {
   }
 }
 
-export const actions = { selectPhenotype, togglePhenotype, removePhenotype }
+export function searchPhenotypeOntology () {
+  return (dispatch, getState) => {
+    const { server, token } = getState().session
+    return get(server, 'v2/sys_ont_Ontology?ontologyName==hp', token).then(
+      (json) => {
+        dispatch(phenotypeOntologyFound(json.items[0].id))
+      }
+    )
+  }
+}
+
+export const phenotypeOntologyFound = (id) => ({
+  type    : PHENOTYPE_ONTOLOGY_FOUND,
+  payload : id
+})
+
+export const actions = { selectPhenotype, togglePhenotype, removePhenotype, phenotypeOntologyFound }
 
 const ACTION_HANDLERS = {
+  [PHENOTYPE_ONTOLOGY_FOUND] : (state, action) => (
+  { ...state, ontologyId : action.payload }
+  ),
   [SELECT_PHENOTYPE] : (state, action) => (
     (state.selected.map(item => item.id).indexOf(action.payload.primaryID) === -1) ? {
       ...state,

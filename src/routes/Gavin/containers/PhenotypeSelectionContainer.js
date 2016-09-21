@@ -66,7 +66,7 @@ const mapStateToProps = (state) => {
       .filter(term => term.length)
       .map(term => `(ontologyTermSynonym.ontologyTermSynonym=q="${term.trim()}",ontologyTermIRI=q="${term.trim()}")`)
     // TODO: filter out items that have already been selected
-    return ['ontology=="AAAACV2MZBAUEEG5WHQBVBIAAE"', ...termQueryParts].join(';')
+    return [`ontology=="${state.gavin.phenotypes.ontologyId}"`, ...termQueryParts].join(';')
   }
 
   return { getQuery, phenotypes : getSelectedPhenotypes(state.gavin) }

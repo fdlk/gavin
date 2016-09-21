@@ -1,5 +1,6 @@
 import { injectReducer } from '../../store/reducers'
 import { login } from 'redux/modules/Session'
+import { searchPhenotypeOntology } from './modules/PhenotypeSelection'
 
 export default (store) => ({
   path : 'gavin',
@@ -17,8 +18,11 @@ export default (store) => ({
       injectReducer(store, { key : 'gavin', reducer })
 
       const loginAction = login({ apiUrl : 'http://localhost:8080/api/' }, 'admin', 'admin')
-      console.log('dispatch', loginAction)
-      store.dispatch(loginAction)
+      store.dispatch(loginAction).then(
+        () => {
+          store.dispatch(searchPhenotypeOntology())
+        }
+      )
 
       /*  Return getComponent   */
       cb(null, Gavin)
