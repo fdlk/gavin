@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import EntitySelectBoxContainer from 'containers/EntitySelectBoxContainer'
 import { selectPhenotype, togglePhenotype, removePhenotype } from 'routes/Gavin/modules/PhenotypeSelection'
-import { getSelectedPhenotypes } from 'routes/Gavin/modules/Gavin'
+import { getSelectedPhenotypes, getAllGenesPresent, getActivePhenotypes } from 'routes/Gavin/modules/Gavin'
 import SelectedPhenotypes from '../components/SelectedPhenotypes'
 import { Label } from 'react-bootstrap'
 
@@ -14,7 +14,8 @@ const propTypes = {
   phenotypes      : PropTypes.array,
   getQuery        : PropTypes.func,
   togglePhenotype : PropTypes.func,
-  removePhenotype : PropTypes.func
+  removePhenotype : PropTypes.func,
+  getGnScores     : PropTypes.func
 }
 
 class PhenotypeSelection extends Component {
@@ -69,7 +70,22 @@ const mapStateToProps = (state) => {
     return ['ontology=="AAAACV2MZBAUEEG5WHQBVBIAAE"', ...termQueryParts].join(';')
   }
 
-  return { getQuery, phenotypes : getSelectedPhenotypes(state.gavin) }
+  function getGnScores () {
+    const activePhenotypes = getActivePhenotypes(state.gavin)
+    const genes = getAllGenesPresent(state.gavin)
+
+    const hpoPartOfQuery = 'HPO_ID=in=(' + activePhenotypes.join() + ')'
+    const genePartOfQuery = 'GENE=in=(' + genes.join() + ')'
+
+    const query = 'api/v2/GeneNetworks?q=' + hpoPartOfQuery + ';' + genePartOfQuery
+    console.log(query)
+
+    // 1. Get scores via API
+    // 1.5 with multiple HPO terms sum the scores
+    // 2. Sort table based on scores
+  }
+
+  return { getQuery, phenotypes : getSelectedPhenotypes(state.gavin), getGnScores }
 }
 
 const onChange = (selectedOption) => selectPhenotype(selectedOption.value)

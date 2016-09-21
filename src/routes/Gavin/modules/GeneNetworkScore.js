@@ -1,16 +1,16 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_GN_SCORES = 'Gavin.SET_GN_SCORES'
+export const SCORES_LOADED = 'Gavin.SCORES_LOADED'
 
-export const constants = { SET_GN_SCORES }
+export const constants = { SCORES_LOADED }
 
 // ------------------------------------
 // Action creators
 // ------------------------------------
 export function setGeneNetworkScores (scores) {
   return {
-    type    : SET_GN_SCORES,
+    type    : SCORES_LOADED,
     payload : scores
   }
 }
@@ -21,7 +21,7 @@ export const actions = { setGeneNetworkScores }
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_GN_SCORES] : (state, action) => {
+  [SCORES_LOADED] : (state, action) => {
     return {
       'HP_000300280' : action.payload.scores
     }
@@ -31,23 +31,22 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Selectors
 // ------------------------------------
-// TODO sort variants in state based on scores
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export const defaultState = {
-  'HP_000300280' : {
-    'NOD2'  : 5,
-    'BRCA2' : 2
+  'HP_0100280' : {
+    'NOD2'  : 6,
+    'BRCA2' : 1
   },
-  'HP_000102354' : {
-    'NOD2'  : 2,
+  'HP_0003002' : {
+    'NOD2'  : 1,
     'BRCA2' : 6
   }
 }
 
-export default function gavinReducer (state = defaultState, action) {
+export default function geneNetworkReducer (state = defaultState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
 }
