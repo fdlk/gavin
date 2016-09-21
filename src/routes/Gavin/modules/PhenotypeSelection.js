@@ -3,7 +3,7 @@ export const SELECT_PHENOTYPE = 'Gavin.SELECT_PHENOTYPE'
 export const TOGGLE_PHENOTYPE = 'Gavin.TOGGLE_PHENOTYPE'
 export const REMOVE_PHENOTYPE = 'Gavin.REMOVE_PHENOTYPE'
 
-export const constants = { SELECT_PHENOTYPE, TOGGLE_PHENOTYPE }
+export const constants = { SELECT_PHENOTYPE, TOGGLE_PHENOTYPE, REMOVE_PHENOTYPE }
 
 // Action Creators
 

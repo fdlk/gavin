@@ -14,8 +14,8 @@ class SelectedPhenotypes extends Component {
       Selected phenotypes:
       <form>
         <FormGroup>
-          {phenotypes.map((pheno, index) => <Checkbox inline checked={pheno.active}
-            onClick={() => togglePhenotype(index)}>
+          {phenotypes.map((pheno, index) => <Checkbox key={index} inline checked={pheno.active}
+            onChange={() => togglePhenotype(index)}>
             {pheno.value.name}
             <Glyphicon glyph='remove' onClick={() => removePhenotype(index)} />
           </Checkbox>)}
