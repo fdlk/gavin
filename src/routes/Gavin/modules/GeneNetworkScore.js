@@ -1,23 +1,37 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SELECT_PHENOTYPE = 'Gavin.SELECT_PHENOTYPE'
+export const SET_GN_SCORES = 'Gavin.SET_GN_SCORES'
 
-export const constants = { SELECT_PHENOTYPE }
-// export const constants = { };
+export const constants = { SET_GN_SCORES }
 
-// Action Creators
+// ------------------------------------
+// Action creators
+// ------------------------------------
+export function setGeneNetworkScores (scores) {
+  return {
+    type    : SET_GN_SCORES,
+    payload : scores
+  }
+}
 
-// export const actions = { };
+export const actions = { setGeneNetworkScores }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const ACTION_HANDLERS = {}
+const ACTION_HANDLERS = {
+  [SET_GN_SCORES] : (state, action) => {
+    return {
+      'HP_000300280' : action.payload.scores
+    }
+  }
+}
 
 // ------------------------------------
 // Selectors
 // ------------------------------------
+// TODO sort variants in state based on scores
 
 // ------------------------------------
 // Reducer

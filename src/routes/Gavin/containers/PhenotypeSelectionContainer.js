@@ -6,15 +6,17 @@ import { getSelectedPhenotypes } from 'routes/Gavin/modules/Gavin'
 import SelectedPhenotypes from '../components/SelectedPhenotypes'
 import { Label } from 'react-bootstrap'
 
+// ------------------------------------
+// Presentation components
+// ------------------------------------
+
 const propTypes = {
   phenotypes      : PropTypes.array,
   getQuery        : PropTypes.func,
   togglePhenotype : PropTypes.func,
   removePhenotype : PropTypes.func
 }
-/**
- * This is the dumb presentation component for the Phenotype selection box.
- */
+
 class PhenotypeSelection extends Component {
   static getOption (item) {
     const { ontologyTermName, ontologyTermSynonym, ontologyTermIRI } = item
@@ -52,16 +54,19 @@ class PhenotypeSelection extends Component {
 
 PhenotypeSelection.propTypes = propTypes
 
-// these two methods are used to wrap a container component around the presentation component above
+// ------------------------------------
+// Container / Presentation wrapping
+// ------------------------------------
+
 const mapStateToProps = (state) => {
-  // retrieval of options happens in view state, define here how to retrieve them.
+  // Define how to retrieve options in view state
   function getQuery (input) {
     const termQueryParts = input
       .split(/\s+/)
       .filter(term => term.length)
       .map(term => `(ontologyTermSynonym.ontologyTermSynonym=q="${term.trim()}",ontologyTermIRI=q="${term.trim()}")`)
     // TODO: filter out items that have already been selected
-    return ['ontology=="AAAACV2CZE5QEVXJESE2BPAAAE"', ...termQueryParts].join(';')
+    return ['ontology=="AAAACV2MZBAUEEG5WHQBVBIAAE"', ...termQueryParts].join(';')
   }
 
   return { getQuery, phenotypes : getSelectedPhenotypes(state.gavin) }

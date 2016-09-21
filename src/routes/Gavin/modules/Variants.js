@@ -1,20 +1,50 @@
+// ------------------------------------
 // Constants
+// ------------------------------------
+export const SET_VARIANTS = 'Gavin.SET_VARIANTS'
 
-// export const constants = { };
+export const constants = { SET_VARIANTS }
 
-// Action Creators
+// ------------------------------------
+// Action creators
+// ------------------------------------
+export function setVariants (variants) {
+  return {
+    type    : SET_VARIANTS,
+    payload : variants
+  }
+}
 
-// export const actions = { };
+export const actions = { setVariants }
+
+// ------------------------------------
+// Action Handlers
+//
+// Switch that defines what every action
+// should do
+// ------------------------------------
+const ACTION_HANDLERS = {
+  [SET_VARIANTS] : (state, action) => {
+    return {
+      variants : action.payload.variants
+    }
+  }
+}
 
 // ------------------------------------
 // Selectors
+//
 // Selector filters data from the state
 // that can be used for other componenents
 // ------------------------------------
-// TODO selector for genes
+export const getAllGenesPresent = (state) =>
+    state.variants.map(variant => ({
+      gene : variant.gene
+    }))
 
 // ------------------------------------
 // Reducer
+//
 // Reducer distributes actions to trigger state changes
 // ------------------------------------
 export const defaultState = {
@@ -24,7 +54,7 @@ export const defaultState = {
     'ref'        : 'A',
     'alt'        : 'T',
     'gene'       : 'NOD2'
-  }, {
+  },{
     'chromosome' : '2',
     'position'   : '200',
     'ref'        : 'C',
@@ -33,9 +63,7 @@ export const defaultState = {
   }]
 }
 
-export default function (state = defaultState, action) {
-  switch (action.type) {
-    default:
-      return state
-  }
+export default function variantReducer (state = defaultState, action) {
+  const handler = ACTION_HANDLERS[action.type]
+  return handler ? handler(state, action) : state
 }
